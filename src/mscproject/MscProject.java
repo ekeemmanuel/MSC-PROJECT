@@ -531,7 +531,7 @@ public class MscProject extends javax.swing.JFrame {
 
         dRateTextField.setEnabled(false);
 
-        jLabel13.setText("Time Period:");
+        jLabel13.setText("Time of Interest:");
 
         javax.swing.GroupLayout fcastDPanelLayout = new javax.swing.GroupLayout(fcastDPanel);
         fcastDPanel.setLayout(fcastDPanelLayout);
@@ -945,7 +945,7 @@ public class MscProject extends javax.swing.JFrame {
             } while (csvName.isEmpty());
 //            exp.exportTable(table, new File("\\\\nas-csdm.rgu.ac.uk\\csdm-H\\Students\\16\\1600558\\Desktop\\myCSVs\\" + csvName + ".csv"));
             exp.exportTable(table, new File("C:\\Users\\laptop\\Desktop"
-                   + "\\Petroleum Production Data Files\\" + csvName + ".csv"));
+                    + "\\Petroleum Production Data Files\\" + csvName + ".csv"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null,
                     "Problem writing to file: " + csvName + ".csv"
@@ -992,7 +992,7 @@ public class MscProject extends javax.swing.JFrame {
          * Code for forecasting flowrate using Arp's Decline curve equation*
          */
         fRateTextField.setText("");
-        double tOfInterest, qPredict, qInitial, dExp;
+        double tOfInterest, qPredict, qInitial, dExp, valueOfInterest;
         ArrayList<Double> qValues = getColumnItems(
                 rateComboBox.getSelectedIndex());
         qInitial = qValues.get(0);
@@ -1002,7 +1002,12 @@ public class MscProject extends javax.swing.JFrame {
                     "Enter the time period of interest first!");
         } else {
             try {
-                tOfInterest = Double.parseDouble(timeTextField.getText());
+//                tOfInterest = Double.parseDouble(timeTextField.getText());
+                ArrayList<Double> tValues = getColumnItems(
+                        timeComboBox.getSelectedIndex());
+                valueOfInterest = Double.parseDouble(timeTextField.getText());
+                tOfInterest = (valueOfInterest - tValues.get(0))
+                        / (tValues.get(1) - tValues.get(0));
                 qPredict = qInitial * Math.exp(-dExp * tOfInterest);
                 fRateTextField.setText("" + qPredict);
             } catch (Exception e) {
@@ -1055,9 +1060,11 @@ public class MscProject extends javax.swing.JFrame {
     private void clrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clrButtonActionPerformed
         fPanel.removeAll();
         fPanel.validate();
-        
-        dRateTextField.setText(null); timeTextField.setText(null);
-        fRateTextField.setText(null); predictButton.setEnabled(false);
+
+        dRateTextField.setText(null);
+        timeTextField.setText(null);
+        fRateTextField.setText(null);
+        predictButton.setEnabled(false);
     }//GEN-LAST:event_clrButtonActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
@@ -1299,8 +1306,7 @@ public class MscProject extends javax.swing.JFrame {
     public void addFileToTree(String file) {
         DefaultMutableTreeNode dtm = new DefaultMutableTreeNode(file);
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        DefaultMutableTreeNode rooted = (DefaultMutableTreeNode) tree.getModel(
-        ).getRoot();
+        DefaultMutableTreeNode rooted = (DefaultMutableTreeNode) tree.getModel().getRoot();
         model.insertNodeInto(dtm, rooted, rooted.getChildCount());
         //  tree.validate();
     }
