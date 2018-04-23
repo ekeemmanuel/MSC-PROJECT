@@ -72,6 +72,7 @@ public class MscProject extends javax.swing.JFrame {
 
         initComponents();
         setExtendedState(MscProject.MAXIMIZED_BOTH);
+        systemLogin();
 
         /**
          * Code for creating a new directory for file management*
@@ -674,7 +675,7 @@ public class MscProject extends javax.swing.JFrame {
                         .addGap(72, 72, 72)
                         .addComponent(jLabel7))
                     .addComponent(graphDPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 36, Short.MAX_VALUE))
         );
         propertiesPanelLayout.setVerticalGroup(
             propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -797,7 +798,7 @@ public class MscProject extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(15, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addComponent(myTabs)))
         );
         layout.setVerticalGroup(
@@ -1251,6 +1252,20 @@ public class MscProject extends javax.swing.JFrame {
         System.out.println(fcastSeries);
         data.addSeries(fcastSeries);
         return dExp;
+    }
+
+    private void systemLogin() {
+        String userInput, message;
+        message = "Welcome to ProdManager \nEnter password to begin:";
+        do {
+            userInput = JOptionPane.showInputDialog(
+                    myTabs, message, "SYSTEM LOGIN", 3);
+            if (!("eke".equals(userInput))) {
+                JOptionPane.showMessageDialog(null, "Incorrect password! "
+                        + "Try again.");
+            }
+        } while (!("eke".equals(userInput)));
+
     }
 
     /**
